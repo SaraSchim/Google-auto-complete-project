@@ -96,20 +96,20 @@ def go_down_db(current_node):
     global list
     for i in current_node.keys():
         if current_node.get(" ") is None:
-            bb(current_node[i])
-            print(i)
+            go_down_db(current_node[i])
         else:
             index_list = get_index_sentence(current_node[" "])
             list=set(list+index_list)
             list=[i for i in list]
-            print(list)
             if len(list)>=5:
+                print(list)
                 parse_and_sort(list)
-                return 
+                exit()
 
 # lines=get_lines()
 # data_base=get_data()
 # sentence = input("please enter sentence:")
 # search(sentence)
 
-
+z={'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {'s': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}}, 'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}, 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}}, 'a': {'h': {'i': {'s': {' ': [7]}}}}}
+go_down_db(z)
