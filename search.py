@@ -53,37 +53,37 @@ def get_index_sentence(aa):
 def parse_and_sort(aa):
     print("parse_and_sort",aa)
 
-def get_index_sentence(node):
-    if type(node) == list:
-        if len(node) >= 5:
-            result_list = node[:5]
-            return result_list
-        else:
-            return node
-    else:
-        with open(node, "r") as file:
-            result_list = file.readlines()
-            if len(result_list) >= 5:
-                return result_list[:5]
-            else:
-                return result_list
+# def get_index_sentence(node):
+#     if type(node) == list:
+#         if len(node) >= 5:
+#             result_list = node[:5]
+#             return result_list
+#         else:
+#             return node
+#     else:
+#         with open(node, "r") as file:
+#             result_list = file.readlines()
+#             if len(result_list) >= 5:
+#                 return result_list[:5]
+#             else:
+#                 return result_list
 
+#
+# def change(sentence):
+#     for letter in sentence[::-1]:
+#         if current_node.get(letter) is None:
+#             if not change(sentence):
+#                 return
+#
+#         current_node = current_node[letter]
+#
+#     return current_node[" "]
 
-def change(sentence):
-    for letter in sentence[::-1]:
-        if current_node.get(letter) is None:
-            if not change(sentence):
-                return
-
-        current_node = current_node[letter]
-
-    return current_node[" "]
-
-
-def parse_and_sort(sentences_list):
-    result_list = [lines[i] for i in sentences_list]
-    result_list.sort()
-    return result_list
+#
+# def parse_and_sort(sentences_list):
+#     result_list = [lines[i] for i in sentences_list]
+#     result_list.sort()
+#     return result_list
 
 
 def add_char(sentence):
@@ -91,15 +91,18 @@ def add_char(sentence):
         fixed_sentence = sentence.remove(char)
         search(fixed_sentence)
 
-
-def bb(current_node,list=[]):
+list=[]
+def go_down_db(current_node):
+    global list
     for i in current_node.keys():
         if current_node.get(" ") is None:
-            bb(current_node[i],list)
+            bb(current_node[i])
+            print(i)
         else:
             index_list = get_index_sentence(current_node[" "])
             list=set(list+index_list)
             list=[i for i in list]
+            print(list)
             if len(list)>=5:
                 parse_and_sort(list)
                 return 
@@ -108,6 +111,5 @@ def bb(current_node,list=[]):
 # data_base=get_data()
 # sentence = input("please enter sentence:")
 # search(sentence)
-l={'t': {'h': {'i': {'s': {' ': [1, 2], 'i': {'s': {' ': [1, 2], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}}}}}, 'i': {'s': {' ': [1, 2], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}, 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}
-bb(l)
+
 
