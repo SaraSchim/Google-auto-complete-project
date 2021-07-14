@@ -20,18 +20,6 @@ data_base = get_data()
 
 #########################
 
-def bb(current_node, list=[]):
-    for i in current_node.keys():
-        if current_node.get(" ") is None:
-            bb(current_node[i], list)
-        else:
-            index_list = get_index_sentence(current_node[" "])
-            # list = set(list + index_list)
-            # list = [i for i in list]
-            if len(index_list) == 5:
-                index_list = parse_and_sort(index_list)
-                return index_list
-
 
 def search(sentence):
     num_result_sentence = 0
@@ -41,10 +29,9 @@ def search(sentence):
     sentence = sentence.lower()
     sentence = " ".join(sentence.split(" "))
 
-    sen_list = bb(current_node, sentence)
+    sen_list = go_down_db(current_node, sentence)
     # num_result_sentence = len(sen_list)
     print(sen_list)
-
 
 
 def get_index_sentence(node):
@@ -77,9 +64,9 @@ def change(sentence):
 def add_char(sentence):
     for char in range(len(sentence), 0, -1):
         fixed_sentence = sentence.remove(sentence[char])
-        
-        if bb(data_base, fixed_sentence):
-            return
+        node = data_base[sentence[0]]
+        for i in sentence:
+            node = node[sentence[i]]
 
 
 def remove_char(sentence):
@@ -94,28 +81,39 @@ def parse_and_sort(sentences_list):
     return result_list
 
 
+list = []
 
 
-list=[]
 def go_down_db(current_node):
     global list
     for i in current_node.keys():
         if current_node.get(" ") is None:
-            bb(current_node[i])
+            go_down_db(current_node[i])
             print(i)
         else:
             index_list = get_index_sentence(current_node[" "])
-            list=set(list+index_list)
-            list=[i for i in list]
+            list = set(list + index_list)
+            list = [i for i in list]
             print(list)
-            if len(list)>=5:
+            if len(list) >= 5:
                 parse_and_sort(list)
-                return 
+                return
+
+            # lines=get_lines()
+
+def go_down(sentence):
+    node = data_base.get(sentence[0])
+    i=1
+    while node.get(sentence[i]):
+        node = node.get(sentence[i])
+        i+=1
+        if i == len(sentence):
+            return node[" "]
+    return None
 
 
-# lines=get_lines()
-# data_base=get_data()
+
+
 sentence = input("please enter sentence:")
-search(sentence)
-
-
+print(go_down(sentence))
+# search(sentence)
