@@ -109,8 +109,8 @@ def get_index_sentence(aa):
 >>>>>>> e794fdfae3434eb745a1e91204e03e275b1d22d8
 
 
-def parse_and_sort(aa):
-    print("parse_and_sort", aa)
+# def parse_and_sort(aa):
+#     print("parse_and_sort", aa)
 
 
 def get_index_sentence(node):
@@ -142,24 +142,38 @@ def get_index_sentence(node):
 #     return current_node[" "]
 
 #
-# def parse_and_sort(sentences_list):
-#     result_list = [lines[i] for i in sentences_list]
-#     result_list.sort()
-#     return result_list
+def parse_and_sort(sentences_list):
+    result_list = [lines[i] for i in sentences_list]
+    result_list.sort()
+    return result_list
 
 
-def add_char(sentence, num):
+def add_or_remove_char(sentence, num, add_or_remove):
     result = []
+    score = 0
+    if add_or_remove == "add":
+        c = ""
+    else:
+        c = "*"
     for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence[:char] + sentence[char+1:]
+        fixed_sentence = sentence[:char] + c + sentence[char+1:]
         res = find_node_by_sentence(fixed_sentence)
         if res:
-            result += get_index_sentence(res)
+            index_list = get_index_sentence(res)
+            result += index_list
+            if char < 4:
+                score += (10 - (2 * char))*len(index_list)
+            else:
+                score += 2 * len(index_list)
             if len(result) >= num:
-                return result[:num]
-    return None
+                return result[:num], (2*len(sentence))*num - score
+    if result:
+        return result, (2*len(sentence))*len(result) - score
+    return None, 0
 
-print(add_char("iss", 5))
+print(add_or_remove_char("this", 3, "add"))
+
+
 
 <<<<<<< HEAD
 =======
@@ -186,6 +200,7 @@ def go_down_db(current_node):
 # search(sentence)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def main():
     sentence=input("Enter your text:")
     while sentence!="#":
@@ -201,6 +216,15 @@ z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
      'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
      'a': {'h': {'i': {'s': {' ': [7]}}}}}
 go_down_db(z)
+=======
+# z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
+#     's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
+#                              'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
+#      'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
+#      'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
+#      'a': {'h': {'i': {'s': {' ': [7]}}}}}
+# go_down_db(z)
+>>>>>>> 451501e86473de4a88e4f144e65db1cea08b5da7
 
 
 >>>>>>> e794fdfae3434eb745a1e91204e03e275b1d22d8
