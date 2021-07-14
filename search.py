@@ -23,6 +23,7 @@ data_base = get_data()
 def find_node_by_sentence(sentence):
     node = data_base
     for i in sentence:
+        #TODO: case "*"
         node = node.get(i)
         if not node:
             return None
@@ -57,29 +58,31 @@ def search(sentence):
         sentence = sentence[i] = "*"
 
 
-def get_index_sentence(aa):
-    print("get_index_sentence", aa)
-    return aa
+# def get_index_sentence(aa):
+#     print("get_index_sentence", aa)
+#     return aa
 
 
 def parse_and_sort(aa):
     print("parse_and_sort", aa)
 
 
-# def get_index_sentence(node):
-#     if type(node) == list:
-#         if len(node) >= 5:
-#             result_list = node[:5]
-#             return result_list
-#         else:
-#             return node
-#     else:
-#         with open(node, "r") as file:
-#             result_list = file.readlines()
-#             if len(result_list) >= 5:
-#                 return result_list[:5]
-#             else:
-#                 return result_list
+def get_index_sentence(node):
+    if type(node) == list:
+        if len(node) >= 5:
+            result_list = node[:5]
+            return result_list
+        else:
+            return node
+    elif type(node) == str:
+        with open(node, "r") as file:
+            result_list = file.readlines()
+            if len(result_list) >= 5:
+                return result_list[:5]
+            else:
+                return result_list
+    else:
+        return None
 
 #
 # def change(sentence):
@@ -99,11 +102,18 @@ def parse_and_sort(aa):
 #     return result_list
 
 
-def add_char(sentence):
+def add_char(sentence, num):
+    result = []
     for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence.remove(char)
-        search(fixed_sentence)
+        fixed_sentence = sentence[:char] + sentence[char+1:]
+        res = find_node_by_sentence(fixed_sentence)
+        if res:
+            result += get_index_sentence(res)
+            if len(result) >= num:
+                return result[:num]
+    return None
 
+print(add_char("iss", 5))
 
 list = []
 def go_down_db(current_node):
