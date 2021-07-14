@@ -43,10 +43,10 @@ def search(sentence):
     for i in range(len(sentence),0,-1):
         sentence=sentence[i]="*"
 
-def bb(sen,current_node):
-    for letter in sentence:
-        if current_node.get(letter) is None:
-            for i in current_node.keys():
+def bb(current_node,list=[]):
+    for i in current_node.keys():
+        if current_node.get(" ") is None:
+            bb(current_node[i],list)
 
 
 # lines=get_lines()
