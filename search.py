@@ -20,6 +20,18 @@ data_base = get_data()
 
 #########################
 
+def bb(current_node, list=[]):
+    for i in current_node.keys():
+        if current_node.get(" ") is None:
+            bb(current_node[i], list)
+        else:
+            index_list = get_index_sentence(current_node[" "])
+            # list = set(list + index_list)
+            # list = [i for i in list]
+            if len(index_list) == 5:
+                index_list = parse_and_sort(index_list)
+                return index_list
+
 
 def search(sentence):
     num_result_sentence = 0
@@ -27,23 +39,12 @@ def search(sentence):
     regex = re.compile('[^a-zA-Z\s]')
     sentence = regex.sub('', sentence)
     sentence = sentence.lower()
-    sentence = "".join(sentence.split(" "))
+    sentence = " ".join(sentence.split(" "))
 
-    for letter in sentence:
-        if current_node.get(letter) is None:
-            for i in current_node.keys():
-                pass
-            finish = 0
-            break
-        current_node = current_node[letter]
-    if finish:
-        index_list = get_index_sentence(current_node[" "])
-        if len(index_list) == 5:
-            parse_and_sort(index_list)
-            return
-        num_result_sentence = len(index_list)
-    for i in range(len(sentence), 0, -1):
-        sentence = sentence[i] = "*"
+    sen_list = bb(current_node, sentence)
+    # num_result_sentence = len(sen_list)
+    print(sen_list)
+
 
 
 def get_index_sentence(node):
@@ -73,16 +74,12 @@ def change(sentence):
     return current_node[" "]
 
 
-def parse_and_sort(sentences_list):
-    result_list = [lines[i] for i in sentences_list]
-    result_list.sort()
-    return result_list
-
-
 def add_char(sentence):
     for char in range(len(sentence), 0, -1):
         fixed_sentence = sentence.remove(sentence[char])
-        search(fixed_sentence)
+        
+        if bb(data_base, fixed_sentence):
+            return
 
 
 def remove_char(sentence):
@@ -91,21 +88,13 @@ def remove_char(sentence):
         search(fixed_sentence)
 
 
-def bb(current_node, list=[]):
-    for i in current_node.keys():
-        if current_node.get(" ") is None:
-            bb(current_node[i],list)
-        else:
-            index_list = get_index_sentence(current_node[" "])
-            list=set(list+index_list)
-            list=[i for i in list]
-            if len(list)>=5:
-                parse_and_sort(list)
-                return 
+def parse_and_sort(sentences_list):
+    result_list = [lines[i] for i in sentences_list]
+    result_list.sort()
+    return result_list
+
 
 # lines=get_lines()
 # data_base=get_data()
 sentence = input("please enter sentence:")
 search(sentence)
-
-
