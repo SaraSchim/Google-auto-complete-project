@@ -2,6 +2,7 @@ import json
 import os
 
 data_base = dict()
+lines = []
 
 
 def insert(line, line_index):
@@ -20,7 +21,6 @@ def insert(line, line_index):
 
 
 def find_all_lines(root_path):
-    lines = []
     count = 0
     # r=root, d=directories, f = files
     for r, d, f in os.walk(root_path):
@@ -31,18 +31,37 @@ def find_all_lines(root_path):
                 count +=1
                 with open(os.path.join(r, file), "r",  encoding="cp437", errors='ignore') as txt_file:
                     for line in txt_file.read().splitlines():
-                        if len(line) < 2:
+                        if len(line) >2:
                             lines.append(line)
                             insert(line, len(lines))
 
 
 
 def write_DB_to_file():
-    path = '2021-archive'
-    # path = 'aaa'
+    path = '1'
     find_all_lines(path)
     with open('database.json', "w") as DB_file:
-        json.dump(data_base, DB_file)
+         json.dump(data_base, DB_file)
+
+def get_data():
+    with open('database.json', "r") as DB_file:
+        data_base=json.load(DB_file)
 
 
-write_DB_to_file()
+def search():
+    current_node = data_base
+    sen=input("please enter sentence:")
+    sen = sen.lower()
+    sen ="".join(sen.split(" "))
+    for letter in sen:
+        if current_node.get(letter) is None:
+            print("nothing")
+            print(letter)
+        current_node = current_node[letter]
+    for i in range(len(current_node[" "])):
+        print(i+1,". ",lines[current_node[" "][i+1]])
+
+
+# write_DB_to_file()
+data_base=get_data()
+search()
