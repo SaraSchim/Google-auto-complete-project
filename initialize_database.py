@@ -1,3 +1,4 @@
+import json
 import os
 
 data_base = dict()
@@ -20,21 +21,28 @@ def insert(line, line_index):
 
 def find_all_lines(root_path):
     lines = []
+    count = 0
     # r=root, d=directories, f = files
     for r, d, f in os.walk(root_path):
         for file in f:
             if '.txt' in file:
+                print(count)
+                print(os.path.join(r, file))
+                count +=1
                 with open(os.path.join(r, file), "r",  encoding="cp437", errors='ignore') as txt_file:
                     for line in txt_file.read().splitlines():
-                        lines.append(line)
-                        insert(line, len(lines))
+                        if len(line) < 2:
+                            lines.append(line)
+                            insert(line, len(lines))
+
 
 
 def write_DB_to_file():
     path = '2021-archive'
+    # path = 'aaa'
     find_all_lines(path)
     with open('database.json', "w") as DB_file:
-        DB_file.write(data_base)
+        json.dump(data_base, DB_file)
 
 
 write_DB_to_file()
