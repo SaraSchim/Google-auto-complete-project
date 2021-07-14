@@ -94,4 +94,18 @@ def remove_char(sentence):
 def bb(current_node, list=[]):
     for i in current_node.keys():
         if current_node.get(" ") is None:
-            bb(current_node[i], list)
+            bb(current_node[i],list)
+        else:
+            index_list = get_index_sentence(current_node[" "])
+            list=set(list+index_list)
+            list=[i for i in list]
+            if len(list)>=5:
+                parse_and_sort(list)
+                return 
+
+# lines=get_lines()
+# data_base=get_data()
+sentence = input("please enter sentence:")
+search(sentence)
+
+
