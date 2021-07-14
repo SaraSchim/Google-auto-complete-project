@@ -54,7 +54,7 @@ def get_index_sentence(node):
             return result_list
         else:
             return node
-    else:
+    elif type(node) == str:
         with open(node, "r") as file:
             result_list = file.readlines()
             if len(result_list) >= 5:
@@ -94,7 +94,28 @@ def parse_and_sort(sentences_list):
     return result_list
 
 
+
+
+list=[]
+def go_down_db(current_node):
+    global list
+    for i in current_node.keys():
+        if current_node.get(" ") is None:
+            bb(current_node[i])
+            print(i)
+        else:
+            index_list = get_index_sentence(current_node[" "])
+            list=set(list+index_list)
+            list=[i for i in list]
+            print(list)
+            if len(list)>=5:
+                parse_and_sort(list)
+                return 
+
+
 # lines=get_lines()
 # data_base=get_data()
 sentence = input("please enter sentence:")
 search(sentence)
+
+

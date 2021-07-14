@@ -67,4 +67,10 @@ def write_DB_to_file():
 # write_DB_to_file()
 insert("this is cat",1)
 insert("this is mellon",2)
+insert("this is ",3)
+insert("this  mellon",4)
+insert("this ",5)
+insert("ahis ",7)
+insert("thisis mellon",6)
+
 print(data_base)
