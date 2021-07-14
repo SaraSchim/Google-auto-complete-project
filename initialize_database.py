@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 data_base = dict()
 
@@ -28,13 +29,14 @@ def find_all_lines(root_path):
             if '.txt' in file:
                 print(count)
                 print(os.path.join(r, file))
-                count +=1
-                with open(os.path.join(r, file), "r",  encoding="cp437", errors='ignore') as txt_file:
+                count += 1
+                with open(os.path.join(r, file), "r", encoding="cp437", errors='ignore') as txt_file:
                     for line in txt_file.read().splitlines():
-                        if len(line) < 2:
+                        regex = re.compile('[^a-zA-Z]' + '\s')
+                        regex.sub('', line)
+                        if len(line) >= 2:
                             lines.append(line)
-                            insert(line, len(lines))
-
+                            insert(line, len(lines)-1)
 
 
 def write_DB_to_file():
