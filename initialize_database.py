@@ -48,4 +48,7 @@ def write_DB_to_file():
          json.dump(lines, DB_file)
 
 
-write_DB_to_file()
+# write_DB_to_file()
+insert("this is cat",1)
+insert("this is mellon",2)
+print(data_base)

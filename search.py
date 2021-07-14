@@ -30,7 +30,7 @@ def search(sentence):
     for letter in sentence:
         if current_node.get(letter) is None:
             for i in current_node.keys():
-
+                pass
             finish=0
             break
         current_node = current_node[letter]
@@ -42,14 +42,28 @@ def search(sentence):
         num_result_sentence=len(index_list)
     for i in range(len(sentence),0,-1):
         sentence=sentence[i]="*"
+def get_index_sentence(aa):
+    print("get_index_sentence",aa)
+    return aa
 
+
+def parse_and_sort(aa):
+    print("parse_and_sort",aa)
 def bb(current_node,list=[]):
     for i in current_node.keys():
         if current_node.get(" ") is None:
             bb(current_node[i],list)
-
+        else:
+            index_list = get_index_sentence(current_node[" "])
+            list=set(list+index_list)
+            list=[i for i in list]
+            if len(list)>=5:
+                parse_and_sort(list)
+                return 
 
 # lines=get_lines()
 # data_base=get_data()
 # sentence = input("please enter sentence:")
 # search(sentence)
+l={'t': {'h': {'i': {'s': {' ': [1, 2], 'i': {'s': {' ': [1, 2], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}}}}}, 'i': {'s': {' ': [1, 2], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}, 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}
+bb(l)
