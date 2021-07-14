@@ -17,13 +17,8 @@ def get_lines():
 lines = get_lines()
 data_base = get_data()
 
-<<<<<<< HEAD
-lines=get_lines()
-data_base=get_data()
-list = []
-=======
->>>>>>> e794fdfae3434eb745a1e91204e03e275b1d22d8
 
+list = []
 #########################
 
 def find_node_by_sentence(sentence):
@@ -32,7 +27,7 @@ def find_node_by_sentence(sentence):
         #TODO: case "*"
         node = node.get(i)
         if not node:
-            return None
+            return False
     return node.get(" ")
 
 print(find_node_by_sentence("is"))
@@ -53,15 +48,9 @@ def go_down_db(current_node):
                 exit()
 
 
-<<<<<<< HEAD
 
 def machine_search(sentence):
     global list
-    num_result_sentence=0
-=======
-def search(sentence):
-    num_result_sentence = 0
->>>>>>> e794fdfae3434eb745a1e91204e03e275b1d22d8
     current_node = data_base
     regex = re.compile('[^a-zA-Z\s]')
     sentence = regex.sub('', sentence)
@@ -71,7 +60,6 @@ def search(sentence):
     for letter in sentence:
         if current_node.get(letter) is None:
             for i in current_node.keys():
-<<<<<<< HEAD
                 go_down_db()
             break
         current_node = current_node[letter]
@@ -80,33 +68,25 @@ def search(sentence):
         # if len(index_list)==5:
         #     parse_and_sort(index_list)
         #     return
-        num_result_sentence=len(index_list)
-    for i in range(len(sentence),0,-1):
-        sentence=sentence[i]="*"
 
-
-def get_index_sentence(aa):
-    print("get_index_sentence",aa)
-    return aa
-=======
-                pass
-            finish = 0
-            break
-        current_node = current_node[letter]
-    if finish:
-        index_list = get_index_sentence(current_node[" "])
-        if len(index_list) == 5:
-            parse_and_sort(index_list)
-            return
-        num_result_sentence = len(index_list)
-    for i in range(len(sentence), 0, -1):
-        sentence = sentence[i] = "*"
 
 
 # def get_index_sentence(aa):
-#     print("get_index_sentence", aa)
+#     print("get_index_sentence",aa)
 #     return aa
->>>>>>> e794fdfae3434eb745a1e91204e03e275b1d22d8
+#     pass
+#     finish = 0
+#
+#         current_node = current_node[letter]
+#     if finish:
+#         index_list = get_index_sentence(current_node[" "])
+#         if len(index_list) == 5:
+#             parse_and_sort(index_list)
+#             return
+#         num_result_sentence = len(index_list)
+#     for i in range(len(sentence), 0, -1):
+#         sentence = sentence[i] = "*"
+
 
 
 def parse_and_sort(aa):
@@ -128,7 +108,7 @@ def get_index_sentence(node):
             else:
                 return result_list
     else:
-        return None
+        return False
 
 #
 # def change(sentence):
@@ -161,31 +141,14 @@ def add_char(sentence, num):
 
 print(add_char("iss", 5))
 
-<<<<<<< HEAD
-=======
-list = []
-def go_down_db(current_node):
-    global list
-    for i in current_node.keys():
-        if current_node.get(" ") is None:
-            go_down_db(current_node[i])
-        else:
-            index_list = get_index_sentence(current_node[" "])
-            list = set(list + index_list)
-            list = [i for i in list]
-            if len(list) >= 5:
-                print(list)
-                parse_and_sort(list)
-                exit()
 
 
->>>>>>> e794fdfae3434eb745a1e91204e03e275b1d22d8
+
 # lines=get_lines()
 # data_base=get_data()
 # sentence = input("please enter sentence:")
 # search(sentence)
 
-<<<<<<< HEAD
 def main():
     sentence=input("Enter your text:")
     while sentence!="#":
@@ -193,14 +156,3 @@ def main():
         sentence=input(sentence)
     return
 main()
-=======
-z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
-    's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
-                             'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
-     'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
-     'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
-     'a': {'h': {'i': {'s': {' ': [7]}}}}}
-go_down_db(z)
-
-
->>>>>>> e794fdfae3434eb745a1e91204e03e275b1d22d8
