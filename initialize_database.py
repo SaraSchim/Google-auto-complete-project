@@ -31,8 +31,9 @@ def find_all_lines(root_path):
                 count +=1
                 with open(os.path.join(r, file), "r",  encoding="cp437", errors='ignore') as txt_file:
                     for line in txt_file.read().splitlines():
-                        lines.append(line)
-                        insert(line, len(lines))
+                        if len(line) < 2:
+                            lines.append(line)
+                            insert(line, len(lines))
 
 
 
