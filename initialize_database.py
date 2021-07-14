@@ -12,5 +12,3 @@ def insert(line,line_index):
             if current_node.get(" ")==None:
                 current_node[" "]=[]
             current_node[" "].append(line_index)
-
-
