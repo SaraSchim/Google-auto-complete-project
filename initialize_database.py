@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 data_base = dict()
 lines = []
@@ -28,13 +29,14 @@ def find_all_lines(root_path):
             if '.txt' in file:
                 print(count)
                 print(os.path.join(r, file))
-                count +=1
-                with open(os.path.join(r, file), "r",  encoding="cp437", errors='ignore') as txt_file:
+                count += 1
+                with open(os.path.join(r, file), "r", encoding="cp437", errors='ignore') as txt_file:
                     for line in txt_file.read().splitlines():
-                        if len(line) >2:
+                        regex = re.compile('[^a-zA-Z]' + '\s')
+                        regex.sub('', line)
+                        if len(line) >= 2:
                             lines.append(line)
-                            insert(line, len(lines))
-
+                            insert(line, len(lines)-1)
 
 
 def write_DB_to_file():
@@ -42,26 +44,8 @@ def write_DB_to_file():
     find_all_lines(path)
     with open('database.json', "w") as DB_file:
          json.dump(data_base, DB_file)
-
-def get_data():
-    with open('database.json', "r") as DB_file:
-        data_base=json.load(DB_file)
+    with open('database_lines.json', "w") as DB_file:
+         json.dump(lines, DB_file)
 
 
-def search():
-    current_node = data_base
-    sen=input("please enter sentence:")
-    sen = sen.lower()
-    sen ="".join(sen.split(" "))
-    for letter in sen:
-        if current_node.get(letter) is None:
-            print("nothing")
-            print(letter)
-        current_node = current_node[letter]
-    for i in range(len(current_node[" "])):
-        print(i+1,". ",lines[current_node[" "][i+1]])
-
-
-# write_DB_to_file()
-data_base=get_data()
-search()
+write_DB_to_file()
