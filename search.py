@@ -21,9 +21,9 @@ list = []
 
 #########################
 
-def find_node_by_sentence(sentence):
+def find_node_by_sentence(start_node, sentence):
     sentence = sentence.replace(" ", "")
-    node = data_base
+    node = start_node
     for i in sentence:
         # TODO: case "*"
         node = node.get(i)
@@ -32,7 +32,8 @@ def find_node_by_sentence(sentence):
     return node.get(" ")
 
 
-print(find_node_by_sentence("new"))
+print(find_node_by_sentence(data_base, "new"))
+
 
 def go_down_db(current_node):
     global list
@@ -49,6 +50,8 @@ def go_down_db(current_node):
                 exit()
 
 
+# go_down_db(data_base)
+
 
 def machine_search(sentence):
     global list
@@ -64,14 +67,14 @@ def machine_search(sentence):
                 go_down_db()
             break
         current_node = current_node[letter]
-    if len(list)<5:
-        index_list=get_index_sentence(current_node[" "])
+    if len(list) < 5:
+        index_list = get_index_sentence(current_node[" "])
         # if len(index_list)==5:
         #     parse_and_sort(index_list)
         #     return
-    # for i in range(len(sentence)-1):
-    #     sentence[i]="*"
-    #     find_node_by_sentence(sentence[:i]+"*"+sentence[i+1:])
+    for i in range(len(sentence) - 1):
+        # sentence[i]="*"
+        find_node_by_sentence(sentence[:i] + "*" + sentence[i + 1:])
 
 
 def get_index_sentence(node):
@@ -93,15 +96,7 @@ def get_index_sentence(node):
 
 
 #
-# def change(sentence):
-#     for letter in sentence[::-1]:
-#         if current_node.get(letter) is None:
-#             if not change(sentence):
-#                 return
-#
-#         current_node = current_node[letter]
-#
-#     return current_node[" "]
+
 
 #
 def parse_and_sort(sentences_list):
@@ -113,13 +108,17 @@ def parse_and_sort(sentences_list):
 def add_or_remove_char(sentence, num, add_or_remove):
     result = []
     score = 0
+    temp = 0
+    if add_or_remove == "change":
+        temp = 1
     if add_or_remove == "add":
         c = ""
+        temp = 1
     else:
         c = "*"
     for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence[:char] + c + sentence[char + 1:]
-        res = find_node_by_sentence(fixed_sentence)
+        fixed_sentence = sentence[:char-temp] + c + sentence[char:]
+        res = find_node_by_sentence(data_base, fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
             result += index_list
@@ -134,10 +133,23 @@ def add_or_remove_char(sentence, num, add_or_remove):
     return None, 0
 
 
+print(add_or_remove_char("thiis", 2, "add"))
+
+
+# def change_char(sentence, num):
+#     current_node = data_base
+#     for letter in sentence[::-1]:
+#         fixed_sentence = sentence[:char] + c + sentence[char + 1:]
+#         if find_node_by_sentence(current_node, ) is None:
+#             if not change(sentence):
+#                 return
+#
+#         current_node = current_node[letter]
+#
+#     return current_node[" "]
+
+
 # print(add_or_remove_char("this", 3, "add"))
-
-
-
 
 
 # lines=get_lines()
@@ -147,11 +159,13 @@ def add_or_remove_char(sentence, num, add_or_remove):
 
 
 def main():
-    sentence=input("Enter your text:")
-    while sentence!="#":
+    sentence = input("Enter your text:")
+    while sentence != "#":
         machine_search(sentence)
-        sentence=input(sentence)
+        sentence = input(sentence)
     return
+
+
 main()
 
 z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
@@ -161,5 +175,3 @@ z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
      'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
      'a': {'h': {'i': {'s': {' ': [7]}}}}}
 go_down_db(z)
-
-
