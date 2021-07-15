@@ -1,5 +1,6 @@
 import json
 import re
+from AutoCompleteData import AutoCompleteData
 
 
 def get_data():
@@ -23,11 +24,11 @@ list = []
 
 #########################
 
-def find_node_by_sentence(node,sentence):
+def find_node_by_sentence(node, sentence):
     for i in range(len(sentence)):
-        if sentence[i]=="*":
+        if sentence[i] == "*":
             for key in node.keys():
-                result=find_node_by_sentence(node[key], sentence[i + 1:])
+                result = find_node_by_sentence(node[key], sentence[i + 1:])
                 if result:
                     return result
             return False
@@ -38,7 +39,7 @@ def find_node_by_sentence(node,sentence):
     return node.get(" ")
 
 
-print(find_node_by_sentence(data_base,"th*s"))
+print(find_node_by_sentence(data_base, "th*s is"))
 
 
 def go_down_db(current_node):
@@ -58,7 +59,7 @@ def go_down_db(current_node):
 
 def machine_search(sentence):
     global list
-    len_sentence=len(sentence)
+    len_sentence = len(sentence)
     current_node = data_base
     regex = re.compile('[^a-zA-Z\s]')
     sentence = regex.sub('', sentence)
@@ -76,11 +77,10 @@ def machine_search(sentence):
         # if len(index_list)==5:
         #     parse_and_sort(index_list)
         #     return
-    for i in range(len(sentence)-1,0,-1):
-        array=find_node_by_sentence(sentence[:i]+"*"+sentence[i+1:])
+    for i in range(len(sentence) - 1, 0, -1):
+        array = find_node_by_sentence(sentence[:i] + "*" + sentence[i + 1:])
         if array:
             pass
-
 
 
 # def get_index_sentence(aa):
@@ -142,7 +142,6 @@ def parse_and_sort(sentences_list):
 
 def add_or_remove_char(sentence, num, add_or_remove):
     result = []
-    score = 0
     temp = 0
     if add_or_remove == 1:
         temp = 1
@@ -156,25 +155,16 @@ def add_or_remove_char(sentence, num, add_or_remove):
         if res:
             index_list = get_index_sentence(res)
             for i in index_list:
-                obj = AutoCompleteData(i, char, add_or_remove, len(sentence) )
-            result = result + index_list
-            if char < 4:
-                score += (10 - (2 * char)) * len(index_list)
-            else:
-                score += 2 * len(index_list)
-            if add_or_remove == "change":
-                score /= 2
-            if len(result) >= num:
-                return result[:num], (2 * len(sentence)) * num - score
+                obj = AutoCompleteData(i, char, add_or_remove, len(sentence))
+                result.append(obj)
+                if len(result) >= num:
+                    return result[:num]
     if result:
-        return result, (2 * len(sentence)) * len(result) - score
+        return result
     return None, 0
 
-# print(add_or_remove_char("this", 3, "add"))
 
-
-
-
+print(add_or_remove_char("this", 3, "add"))
 
 
 # lines=get_lines()
