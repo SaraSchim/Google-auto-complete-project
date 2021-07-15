@@ -144,9 +144,9 @@ def add_or_remove_char(sentence, num, add_or_remove):
     result = []
     score = 0
     temp = 0
-    if add_or_remove == "change":
+    if add_or_remove == 1:
         temp = 1
-    if add_or_remove == "add":
+    if add_or_remove == 2:
         c = ""
     else:
         c = "*"
@@ -155,6 +155,8 @@ def add_or_remove_char(sentence, num, add_or_remove):
         res = find_node_by_sentence(data_base, fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
+            for i in index_list:
+                obj = AutoCompleteData(i, char, add_or_remove, len(sentence) )
             result = result + index_list
             if char < 4:
                 score += (10 - (2 * char)) * len(index_list)
