@@ -21,8 +21,6 @@ def insert(line, line_index):
                 current_node = current_node[letter]
             if current_node.get(" ") is None:
                 current_node[" "] = []
-                # current_node[" "] = "{}.txt".format(file_name)
-                # print(word,file_name,line_index)
             if len(current_node[" "]) < 10:
                 current_node[" "].append(line_index)
             elif len(current_node[" "]) == 11:
@@ -56,12 +54,14 @@ def find_all_lines(root_path):
 
 
 def write_DB_to_file():
+    print("Loading the files and preparing the system...")
     path = '2021-archive'
     find_all_lines(path)
     with open('database.json', "w") as DB_file:
         json.dump(data_base, DB_file)
     with open('database_lines.json', "w") as DB_file:
         json.dump(lines, DB_file)
+    print("The system is ready." , end="")
 
 
 # write_DB_to_file()
