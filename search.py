@@ -22,18 +22,20 @@ list = []
 
 
 #########################
+data_base={'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {'s': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}}, 'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}, 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}}, 'a': {'h': {'i': {'s': {' ': [7]}}}}}
 
-def find_node_by_sentence(sentence):
-    node = data_base
+def find_node_by_sentence(node,sentence):
     for i in range(len(sentence)):
-        if sentence[i] == "*":
+        # print(sentence[i])
+        if sentence[i]=="*":
             for key in node.keys():
-                # print(node)
-                # print(key)
-                find_node_by_sentence(sentence[i + 1:])
-        node = node.get(sentence[i])
-        if not node:
-            return False
+                # print("key",key)
+                return find_node_by_sentence(node[key],sentence[i+1:])
+        else:
+            # print(node)
+            node = node.get(sentence[i])
+            if not node:
+                return False
     return node.get(" ")
 
 
@@ -57,6 +59,7 @@ def go_down_db(current_node):
 
 def machine_search(sentence):
     global list
+    len_sentence=len(sentence)
     current_node = data_base
     regex = re.compile('[^a-zA-Z\s]')
     sentence = regex.sub('', sentence)
@@ -74,9 +77,11 @@ def machine_search(sentence):
         # if len(index_list)==5:
         #     parse_and_sort(index_list)
         #     return
-    for i in range(len(sentence) - 1):
-        sentence[i] = "*"
-        find_node_by_sentence(sentence[:i] + "*" + sentence[i + 1:])
+    for i in range(len(sentence)-1,0,-1):
+        array=find_node_by_sentence(sentence[:i]+"*"+sentence[i+1:])
+        if array:
+            pass
+
 
 
 # def get_index_sentence(aa):
@@ -164,11 +169,11 @@ def add_or_remove_char(sentence, num, add_or_remove):
         return result, (2 * len(sentence)) * len(result) - score
     return None, 0
 
+# print(add_or_remove_char("this", 3, "add"))
 
-# a=find_node_by_sentence("this")
-# print(type(a))
-# print(get_index_sentence(a))
-print(add_or_remove_char("thiss", 3, "add"))
+
+
+
 
 
 # lines=get_lines()
@@ -182,6 +187,27 @@ def main():
         machine_search(sentence)
         sentence = input(sentence)
     return
+
+print(find_node_by_sentence(data_base,"this"))
+print(find_node_by_sentence(data_base,"ihis"))
+print(find_node_by_sentence(data_base,"thoi"))
+print(find_node_by_sentence(data_base,"th*s"))
+print(find_node_by_sentence(data_base,"*his"))
+print(find_node_by_sentence(data_base,"thi*"))
+print(find_node_by_sentence(data_base,"ca*"))
+print(find_node_by_sentence(data_base,"*at"))
+print(find_node_by_sentence(data_base,"c*t"))
+
+
+
+
+z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
+    's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
+                             'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
+     'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
+     'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
+     'a': {'h': {'i': {'s': {' ': [7]}}}}}
+go_down_db(z)
 
 
 main()
