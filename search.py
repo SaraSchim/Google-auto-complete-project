@@ -20,17 +20,16 @@ score=0
 
 list = []
 #########################
-data_base={'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {'s': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}}, 'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}, 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}}, 'a': {'h': {'i': {'s': {' ': [7]}}}}}
 
 def find_node_by_sentence(node,sentence):
     for i in range(len(sentence)):
-        # print(sentence[i])
         if sentence[i]=="*":
             for key in node.keys():
-                # print("key",key)
-                return find_node_by_sentence(node[key],sentence[i+1:])
+                result=find_node_by_sentence(node[key], sentence[i + 1:])
+                if result:
+                    return result
+            return False
         else:
-            # print(node)
             node = node.get(sentence[i])
             if not node:
                 return False
@@ -180,15 +179,7 @@ def main():
         sentence=input(sentence)
     return
 
-print(find_node_by_sentence(data_base,"this"))
-print(find_node_by_sentence(data_base,"ihis"))
-print(find_node_by_sentence(data_base,"thoi"))
-print(find_node_by_sentence(data_base,"th*s"))
-print(find_node_by_sentence(data_base,"*his"))
-print(find_node_by_sentence(data_base,"thi*"))
-print(find_node_by_sentence(data_base,"ca*"))
-print(find_node_by_sentence(data_base,"*at"))
-print(find_node_by_sentence(data_base,"c*t"))
+
 
 
 
