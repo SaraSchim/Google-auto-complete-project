@@ -22,7 +22,6 @@ list = []
 
 
 #########################
-data_base={'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {'s': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}}, 'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}}, 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}}, 'a': {'h': {'i': {'s': {' ': [7]}}}}}
 
 def find_node_by_sentence(node,sentence):
     for i in range(len(sentence)):
@@ -39,7 +38,7 @@ def find_node_by_sentence(node,sentence):
     return node.get(" ")
 
 
-# print(find_node_by_sentence("i*s"))
+print(find_node_by_sentence(data_base,"th*s"))
 
 
 def go_down_db(current_node):
@@ -153,7 +152,7 @@ def add_or_remove_char(sentence, num, add_or_remove):
         c = "*"
     for char in range(len(sentence), 0, -1):
         fixed_sentence = sentence[:char - temp] + c + sentence[char + 1:]
-        res = find_node_by_sentence(fixed_sentence)
+        res = find_node_by_sentence(data_base, fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
             result = result + index_list
@@ -188,26 +187,26 @@ def main():
         sentence = input(sentence)
     return
 
-print(find_node_by_sentence(data_base,"this"))
-print(find_node_by_sentence(data_base,"ihis"))
-print(find_node_by_sentence(data_base,"thoi"))
-print(find_node_by_sentence(data_base,"th*s"))
-print(find_node_by_sentence(data_base,"*his"))
-print(find_node_by_sentence(data_base,"thi*"))
-print(find_node_by_sentence(data_base,"ca*"))
-print(find_node_by_sentence(data_base,"*at"))
-print(find_node_by_sentence(data_base,"c*t"))
+# print(find_node_by_sentence(data_base,"this"))
+# print(find_node_by_sentence(data_base,"ihis"))
+# print(find_node_by_sentence(data_base,"thoi"))
+# print(find_node_by_sentence(data_base,"th*s"))
+# print(find_node_by_sentence(data_base,"*his"))
+# print(find_node_by_sentence(data_base,"thi*"))
+# print(find_node_by_sentence(data_base,"ca*"))
+# print(find_node_by_sentence(data_base,"*at"))
+# print(find_node_by_sentence(data_base,"c*t"))
 
 
 
 
-z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
-    's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
-                             'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
-     'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
-     'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
-     'a': {'h': {'i': {'s': {' ': [7]}}}}}
-go_down_db(z)
+# z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
+#     's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
+#                              'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
+#      'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
+#      'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
+#      'a': {'h': {'i': {'s': {' ': [7]}}}}}
+# go_down_db(z)
 
 
-main()
+# main()
