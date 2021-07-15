@@ -4,11 +4,13 @@ import re
 
 data_base = dict()
 lines = []
-file_name = 1
+
+
+# file_name = 1
 
 
 def insert(line, line_index):
-    global file_name
+    file_name = 1
     line = line.lower()
     line = line.split()
     for idx_first_word in range(len(line)):
@@ -20,10 +22,10 @@ def insert(line, line_index):
                 current_node = current_node[letter]
             if current_node.get(" ") is None:
                 current_node[" "] = []
-            if len(current_node[" "]) < 10:
+            if len(current_node[" "]) < 10 and type(current_node[" "]) == type([]):
                 current_node[" "].append(line_index)
-            elif len(current_node[" "]) == 11:
-                with open("DB_files\{}".format(file_name), "a") as sen_file:
+            elif len(current_node[" "]) == 10 :
+                with open("DB_files\{}.txt".format(file_name), "a") as sen_file:
                     for i in current_node[" "]:
                         sen_file.write("{}\n".format(i))
                 current_node[" "] = "{}.txt".format(file_name)

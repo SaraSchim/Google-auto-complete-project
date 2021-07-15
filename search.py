@@ -24,26 +24,6 @@ list = []
 
 #########################
 
-
-
-end=0
-def go_down_db(current_node,sentence):
-    global list,end
-    if end==0:
-        for i in current_node.keys():
-            if current_node.get(" ") is None:
-                go_down_db(current_node[i],sentence)
-            else:
-                index_list = get_index_sentence(current_node[" "])
-                for idx in index_list:
-                    print(idx)
-                    obj = AutoCompleteData(idx, -1, 0, len(sentence))
-                    list.append(obj)
-                if len(list) >= 5:
-                    end=1
-
-
-
 def find_node_by_sentence(node, sentence):
     for i in range(len(sentence)):
         if sentence[i] == "*":
@@ -53,13 +33,29 @@ def find_node_by_sentence(node, sentence):
                     return result
             return False
         else:
-            if not node.get(sentence[i]):
-                go_down_db(node, i-1)
-                if end == 1:
-                    return list
-                return False
             node = node.get(sentence[i])
+            if not node:
+                return False
     return node.get(" ")
+
+
+end = 0
+
+
+def go_down_db(current_node, sentence):
+    global list, end
+    if end == 0:
+        for i in current_node.keys():
+            if current_node.get(" ") is None:
+                go_down_db(current_node[i], sentence)
+            else:
+                index_list = get_index_sentence(current_node[" "])
+                for idx in index_list:
+                    print(idx)
+                    obj = AutoCompleteData(idx, -1, 0, len(sentence))
+                    list.append(obj)
+                if len(list) >= 5:
+                    end = 1
 
 
 def machine_search(sentence):
@@ -80,7 +76,7 @@ def machine_search(sentence):
         add_list = fix_char(sentence, 5 - len_array, 2)
         remove_list = fix_char(sentence, 5 - len_array, 3)
         all_fix_list = change_list + add_list + remove_list
-        all_fix_list.sort(reverse=True)
+        all_fix_list.sort()
         if array:
             array += all_fix_list[:len_array]
         else:
@@ -139,19 +135,17 @@ def fix_char(sentence, num, type):
     return []
 
 
-a = fix_char("ths", 3, 1)
-a.sort(reverse=True)
-a = [i.get_sentence() for i in a]
-a = parse_and_sort(a)
-print(a)
+print(fix_char("ths", 3, 3))
 
+
+# lines=get_lines()
+# data_base=get_data()
+# sentence = input("please enter sentence:")
+# search(sentence)
 
 def main():
     sentence = input("Enter your text:")
     while sentence != "#":
-        print(machine_search(sentence))
+        machine_search(sentence)
         sentence = input(sentence)
     return
-
-
-main()
