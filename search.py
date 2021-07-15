@@ -18,6 +18,8 @@ lines = get_lines()
 data_base = get_data()
 list = []
 
+score = 0
+
 
 #########################
 
@@ -25,14 +27,18 @@ def find_node_by_sentence(start_node, sentence):
     sentence = sentence.replace(" ", "")
     node = start_node
     for i in sentence:
-        # TODO: case "*"
+
+        if i == "*":
+            for key in node.keys():
+                node = node[key]
+                find_node_by_sentence(data_base, sentence[i + 1:])
         node = node.get(i)
         if not node:
-            return None
+            return False
     return node.get(" ")
 
 
-print(find_node_by_sentence(data_base, "new"))
+print(find_node_by_sentence(data_base, "ne*w"))
 
 
 def go_down_db(current_node):
@@ -77,6 +83,27 @@ def machine_search(sentence):
         find_node_by_sentence(sentence[:i] + "*" + sentence[i + 1:])
 
 
+# def get_index_sentence(aa):
+#     print("get_index_sentence",aa)
+#     return aa
+#     pass
+#     finish = 0
+#
+#         current_node = current_node[letter]
+#     if finish:
+#         index_list = get_index_sentence(current_node[" "])
+#         if len(index_list) == 5:
+#             parse_and_sort(index_list)
+#             return
+#         num_result_sentence = len(index_list)
+#     for i in range(len(sentence), 0, -1):
+#         sentence = sentence[i] = "*"
+
+
+# def parse_and_sort(aa):
+#     print("parse_and_sort", aa)
+
+
 def get_index_sentence(node):
     if type(node) == list:
         if len(node) >= 5:
@@ -92,7 +119,7 @@ def get_index_sentence(node):
             else:
                 return result_list
     else:
-        return None
+        return False
 
 
 #
@@ -117,7 +144,7 @@ def add_or_remove_char(sentence, num, add_or_remove):
     else:
         c = "*"
     for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence[:char-temp] + c + sentence[char:]
+        fixed_sentence = sentence[:char - temp] + c + sentence[char:]
         res = find_node_by_sentence(data_base, fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
@@ -133,7 +160,7 @@ def add_or_remove_char(sentence, num, add_or_remove):
     return None, 0
 
 
-print(add_or_remove_char("thiis", 2, "add"))
+# print(add_or_remove_char("thiis", 2, "add"))
 
 
 # def change_char(sentence, num):
@@ -156,7 +183,6 @@ print(add_or_remove_char("thiis", 2, "add"))
 # data_base=get_data()
 # sentence = input("please enter sentence:")
 # search(sentence)
-
 
 def main():
     sentence = input("Enter your text:")
