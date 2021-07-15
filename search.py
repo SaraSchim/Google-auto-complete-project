@@ -16,29 +16,28 @@ def get_lines():
 
 lines = get_lines()
 data_base = get_data()
-list = []
-
 score = 0
+
+list = []
 
 
 #########################
 
-def find_node_by_sentence(start_node, sentence):
-    sentence = sentence.replace(" ", "")
-    node = start_node
-    for i in sentence:
-
-        if i == "*":
+def find_node_by_sentence(sentence):
+    node = data_base
+    for i in range(len(sentence)):
+        if sentence[i] == "*":
             for key in node.keys():
-                node = node[key]
-                find_node_by_sentence(data_base, sentence[i + 1:])
-        node = node.get(i)
+                # print(node)
+                # print(key)
+                find_node_by_sentence(sentence[i + 1:])
+        node = node.get(sentence[i])
         if not node:
             return False
     return node.get(" ")
 
 
-print(find_node_by_sentence(data_base, "ne*w"))
+# print(find_node_by_sentence("i*s"))
 
 
 def go_down_db(current_node):
@@ -54,9 +53,6 @@ def go_down_db(current_node):
                 print(list)
                 parse_and_sort(list)
                 exit()
-
-
-# go_down_db(data_base)
 
 
 def machine_search(sentence):
@@ -79,7 +75,7 @@ def machine_search(sentence):
         #     parse_and_sort(index_list)
         #     return
     for i in range(len(sentence) - 1):
-        # sentence[i]="*"
+        sentence[i] = "*"
         find_node_by_sentence(sentence[:i] + "*" + sentence[i + 1:])
 
 
@@ -105,7 +101,7 @@ def machine_search(sentence):
 
 
 def get_index_sentence(node):
-    if type(node) == list:
+    if type(node) == type([]):
         if len(node) >= 5:
             result_list = node[:5]
             return result_list
@@ -123,7 +119,15 @@ def get_index_sentence(node):
 
 
 #
-
+# def change(sentence):
+#     for letter in sentence[::-1]:
+#         if current_node.get(letter) is None:
+#             if not change(sentence):
+#                 return
+#
+#         current_node = current_node[letter]
+#
+#     return current_node[" "]
 
 #
 def parse_and_sort(sentences_list):
@@ -140,19 +144,20 @@ def add_or_remove_char(sentence, num, add_or_remove):
         temp = 1
     if add_or_remove == "add":
         c = ""
-        temp = 1
     else:
         c = "*"
     for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence[:char - temp] + c + sentence[char:]
-        res = find_node_by_sentence(data_base, fixed_sentence)
+        fixed_sentence = sentence[:char - temp] + c + sentence[char + 1:]
+        res = find_node_by_sentence(fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
-            result += index_list
+            result = result + index_list
             if char < 4:
                 score += (10 - (2 * char)) * len(index_list)
             else:
                 score += 2 * len(index_list)
+            if add_or_remove == "change":
+                score /= 2
             if len(result) >= num:
                 return result[:num], (2 * len(sentence)) * num - score
     if result:
@@ -160,23 +165,10 @@ def add_or_remove_char(sentence, num, add_or_remove):
     return None, 0
 
 
-# print(add_or_remove_char("thiis", 2, "add"))
-
-
-# def change_char(sentence, num):
-#     current_node = data_base
-#     for letter in sentence[::-1]:
-#         fixed_sentence = sentence[:char] + c + sentence[char + 1:]
-#         if find_node_by_sentence(current_node, ) is None:
-#             if not change(sentence):
-#                 return
-#
-#         current_node = current_node[letter]
-#
-#     return current_node[" "]
-
-
-# print(add_or_remove_char("this", 3, "add"))
+# a=find_node_by_sentence("this")
+# print(type(a))
+# print(get_index_sentence(a))
+print(add_or_remove_char("thiss", 3, "add"))
 
 
 # lines=get_lines()
@@ -193,11 +185,3 @@ def main():
 
 
 main()
-
-z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
-    's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
-                             'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
-     'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
-     'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
-     'a': {'h': {'i': {'s': {' ': [7]}}}}}
-go_down_db(z)

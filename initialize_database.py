@@ -1,4 +1,3 @@
-import bisect
 import json
 import os
 import re
@@ -44,33 +43,34 @@ def find_all_lines(root_path):
                 # print(os.path.join(r, file))
                 count += 1
                 with open(os.path.join(r, file), "r", encoding="cp437", errors='ignore') as txt_file:
-                    for line in txt_file.read().splitlines():
+                    lines_list = txt_file.read().splitlines()
+                    for i in range(len(lines_list)):
                         regex = re.compile('[^a-zA-Z\s]')
-                        line = regex.sub('', line)
-
-                        if len(line) >= 2:
-                            lines.append(line)
-                            insert(line, len(lines) - 1)
+                        clear_line = regex.sub('', lines_list[i])
+                        lines_list[i] += ' ({} {})'.format(file[:-4], i)
+                        if len(lines_list[i]) >= 2:
+                            lines.append(lines_list[i])
+                            insert(clear_line, len(lines) - 1)
 
 
 def write_DB_to_file():
     print("Loading the files and preparing the system...")
-    path = '2021-archive'
+    path = '2021-archive\python-3.8.4-docs-text'
     find_all_lines(path)
     with open('database.json', "w") as DB_file:
         json.dump(data_base, DB_file)
     with open('database_lines.json', "w") as DB_file:
         json.dump(lines, DB_file)
-    print("The system is ready." , end="")
+    print("The system is ready.", end="")
 
 
 # write_DB_to_file()
-insert("this is cat",1)
-insert("this is mellon",2)
-insert("this is ",3)
-insert("this  mellon",4)
-insert("this ",5)
-insert("ahis ",7)
-insert("thisis mellon",6)
+# insert("this is cat",1)
+# insert("this is mellon",2)
+# insert("this is ",3)
+# insert("this  mellon",4)
+# insert("this ",5)
+# insert("ahis ",7)
+# insert("thisis mellon",6)
 
-print(data_base)
+# print(data_base)
