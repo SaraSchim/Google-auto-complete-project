@@ -38,9 +38,7 @@ def find_node_by_sentence(node, sentence):
                 return False
     return node.get(" ")
 
-
-print(find_node_by_sentence(data_base, "th*s is"))
-
+a = "thiis is ca"
 
 def go_down_db(current_node):
     global list
@@ -83,25 +81,6 @@ def machine_search(sentence):
             pass
 
 
-# def get_index_sentence(aa):
-#     print("get_index_sentence",aa)
-#     return aa
-#     pass
-#     finish = 0
-#
-#         current_node = current_node[letter]
-#     if finish:
-#         index_list = get_index_sentence(current_node[" "])
-#         if len(index_list) == 5:
-#             parse_and_sort(index_list)
-#             return
-#         num_result_sentence = len(index_list)
-#     for i in range(len(sentence), 0, -1):
-#         sentence = sentence[i] = "*"
-
-
-# def parse_and_sort(aa):
-#     print("parse_and_sort", aa)
 
 
 def get_index_sentence(node):
@@ -140,22 +119,23 @@ def parse_and_sort(sentences_list):
     return result_list
 
 
-def add_or_remove_char(sentence, num, add_or_remove):
+# type change = 1, type add = 2, type remove = 3
+def add_or_remove_char(sentence, num, type):
     result = []
     temp = 0
-    if add_or_remove == 1:
+    if type == 1:
         temp = 1
-    if add_or_remove == 2:
+    if type == 2:
         c = ""
     else:
         c = "*"
     for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence[:char - temp] + c + sentence[char + 1:]
+        fixed_sentence = sentence[:char - temp] + c + sentence[char:]
         res = find_node_by_sentence(data_base, fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
             for i in index_list:
-                obj = AutoCompleteData(i, char, add_or_remove, len(sentence))
+                obj = AutoCompleteData(i, char, type, len(sentence))
                 result.append(obj)
                 if len(result) >= num:
                     return result[:num]
@@ -164,7 +144,7 @@ def add_or_remove_char(sentence, num, add_or_remove):
     return None, 0
 
 
-print(add_or_remove_char("this", 3, "add"))
+print(add_or_remove_char("ths", 3, 3))
 
 
 # lines=get_lines()
