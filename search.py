@@ -21,16 +21,17 @@ data_base = get_data()
 #########################
 
 def find_node_by_sentence(sentence):
+    sentence = sentence.replace(" ", "")
     node = data_base
     for i in sentence:
-        #TODO: case "*"
+        # TODO: case "*"
         node = node.get(i)
         if not node:
             return None
     return node.get(" ")
 
-print(find_node_by_sentence("is"))
 
+print(find_node_by_sentence("new"))
 
 
 def search(sentence):
@@ -84,6 +85,7 @@ def get_index_sentence(node):
     else:
         return None
 
+
 #
 # def change(sentence):
 #     for letter in sentence[::-1]:
@@ -110,26 +112,27 @@ def add_or_remove_char(sentence, num, add_or_remove):
     else:
         c = "*"
     for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence[:char] + c + sentence[char+1:]
+        fixed_sentence = sentence[:char] + c + sentence[char + 1:]
         res = find_node_by_sentence(fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
             result += index_list
             if char < 4:
-                score += (10 - (2 * char))*len(index_list)
+                score += (10 - (2 * char)) * len(index_list)
             else:
                 score += 2 * len(index_list)
             if len(result) >= num:
-                return result[:num], (2*len(sentence))*num - score
+                return result[:num], (2 * len(sentence)) * num - score
     if result:
-        return result, (2*len(sentence))*len(result) - score
+        return result, (2 * len(sentence)) * len(result) - score
     return None, 0
+
 
 print(add_or_remove_char("this", 3, "add"))
 
-
-
 list = []
+
+
 def go_down_db(current_node):
     global list
     for i in current_node.keys():
@@ -144,7 +147,6 @@ def go_down_db(current_node):
                 parse_and_sort(list)
                 exit()
 
-
 # lines=get_lines()
 # data_base=get_data()
 # sentence = input("please enter sentence:")
@@ -157,5 +159,3 @@ def go_down_db(current_node):
 #      'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
 #      'a': {'h': {'i': {'s': {' ': [7]}}}}}
 # go_down_db(z)
-
-
