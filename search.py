@@ -38,7 +38,6 @@ def find_node_by_sentence(node, sentence):
                 return False
     return node.get(" ")
 
-a = "thiis is ca"
 
 def go_down_db(current_node):
     global list
@@ -56,31 +55,31 @@ def go_down_db(current_node):
 
 
 def machine_search(sentence):
-    global list
-    len_sentence = len(sentence)
-    current_node = data_base
     regex = re.compile('[^a-zA-Z\s]')
     sentence = regex.sub('', sentence)
     sentence = sentence.lower()
     sentence = "".join(sentence.split(" "))
-
-    for letter in sentence:
-        if current_node.get(letter) is None:
-            for i in current_node.keys():
-                go_down_db()
-            break
-        current_node = current_node[letter]
-    if len(list) < 5:
-        index_list = get_index_sentence(current_node[" "])
-        # if len(index_list)==5:
-        #     parse_and_sort(index_list)
-        #     return
-    for i in range(len(sentence) - 1, 0, -1):
-        array = find_node_by_sentence(sentence[:i] + "*" + sentence[i + 1:])
+    last_node = find_node_by_sentence(data_base, sentence)
+    array = get_index_sentence(last_node)
+    if array:
+        len_array = len(array)
+    else:
+        len_array = 0
+    if array and len(array) == 5:
+        return parse_and_sort(array)
+    else:
+        change_list = fix_char(sentence, 5 - len_array, 1)
+        add_list = fix_char(sentence, 5 - len_array, 2)
+        remove_list = fix_char(sentence, 5 - len_array, 3)
+        all_fix_list = change_list + add_list + remove_list
+        all_fix_list.sort()
         if array:
-            pass
-
-
+            array += all_fix_list[:len_array]
+        else:
+            array = all_fix_list[:len_array]
+        array = [i.get_sentence() for i in array]
+        array = parse_and_sort(array)
+        return array
 
 
 def get_index_sentence(node):
@@ -101,18 +100,6 @@ def get_index_sentence(node):
         return False
 
 
-#
-# def change(sentence):
-#     for letter in sentence[::-1]:
-#         if current_node.get(letter) is None:
-#             if not change(sentence):
-#                 return
-#
-#         current_node = current_node[letter]
-#
-#     return current_node[" "]
-
-#
 def parse_and_sort(sentences_list):
     result_list = [lines[i] for i in sentences_list]
     result_list.sort()
@@ -120,7 +107,7 @@ def parse_and_sort(sentences_list):
 
 
 # type change = 1, type add = 2, type remove = 3
-def add_or_remove_char(sentence, num, type):
+def fix_char(sentence, num, type):
     result = []
     temp = 0
     if type == 1:
@@ -141,10 +128,10 @@ def add_or_remove_char(sentence, num, type):
                     return result[:num]
     if result:
         return result
-    return None, 0
+    return []
 
 
-print(add_or_remove_char("ths", 3, 3))
+print(fix_char("ths", 3, 3))
 
 
 # lines=get_lines()
