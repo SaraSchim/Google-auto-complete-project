@@ -16,7 +16,7 @@ def get_lines():
 
 lines = get_lines()
 data_base = get_data()
-
+score=0
 
 list = []
 #########################
@@ -24,7 +24,10 @@ list = []
 def find_node_by_sentence(sentence):
     node = data_base
     for i in sentence:
-        #TODO: case "*"
+        if i=="*":
+            for key in node.keys():
+                node=node[key]
+                find_node_by_sentence(sentence[i+1:])
         node = node.get(i)
         if not node:
             return False
@@ -68,6 +71,9 @@ def machine_search(sentence):
         # if len(index_list)==5:
         #     parse_and_sort(index_list)
         #     return
+    for i in range(len(sentence)-1):
+        sentence[i]="*"
+        find_node_by_sentence(sentence[:i]+"*"+sentence[i+1:])
 
 
 
@@ -163,11 +169,6 @@ print(add_or_remove_char("this", 3, "add"))
 # sentence = input("please enter sentence:")
 # search(sentence)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> master
-<<<<<<< HEAD
 def main():
     sentence=input("Enter your text:")
     while sentence!="#":
@@ -175,29 +176,4 @@ def main():
         sentence=input(sentence)
     return
 main()
-=======
-<<<<<<< HEAD
-=======
-z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
-    's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
-                             'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
-     'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
-     'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
-     'a': {'h': {'i': {'s': {' ': [7]}}}}}
-go_down_db(z)
-=======
->>>>>>> master
-# z = {'t': {'h': {'i': {'s': {' ': [1, 2, 3, 4, 5], 'i': {
-#     's': {' ': [1, 2, 3, 6], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 6]}}}}}}}},
-#                              'm': {'e': {'l': {'l': {'o': {'n': {' ': [4]}}}}}}}}}},
-#      'i': {'s': {' ': [1, 2, 3], 'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2]}}}}}}}},
-#      'c': {'a': {'t': {' ': [1]}}}, 'm': {'e': {'l': {'l': {'o': {'n': {' ': [2, 4, 6]}}}}}},
-#      'a': {'h': {'i': {'s': {' ': [7]}}}}}
-# go_down_db(z)
-<<<<<<< HEAD
-=======
->>>>>>> 451501e86473de4a88e4f144e65db1cea08b5da7
->>>>>>> master
 
-
->>>>>>> 451501e86473de4a88e4f144e65db1cea08b5da7
