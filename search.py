@@ -94,8 +94,9 @@ def get_index_sentence(node):
         else:
             return node
     elif type(node) == str:
-        with open(node, "r") as file:
-            result_list = file.readlines()
+        with open("DB_files\{}".format(node), "r") as file:
+            result_list = file.read().splitlines()
+            result_list = [int(x) for x in result_list]
             if len(result_list) >= 5:
                 return result_list[:5]
             else:
@@ -104,10 +105,15 @@ def get_index_sentence(node):
         return False
 
 
+# TODO: fix this
 def parse_and_sort(sentences_list):
     result_list = [lines[i] for i in sentences_list]
-    result_list.sort()
+    # result_list.sort()
     return result_list
+
+
+# print(lines)
+print(parse_and_sort(get_index_sentence(find_node_by_sentence(data_base, "this"))))
 
 
 # type change = 1, type add = 2, type remove = 3
@@ -135,7 +141,12 @@ def fix_char(sentence, num, type):
     return []
 
 
-print(fix_char("ths", 3, 3))
+def print_result(array):
+    for i in range(5):
+        print("{}. {}".format(i, array[i]))
+
+
+# print(fix_char("ths", 3, 3))
 
 
 # lines=get_lines()
@@ -146,6 +157,9 @@ print(fix_char("ths", 3, 3))
 def main():
     sentence = input("Enter your text:")
     while sentence != "#":
-        machine_search(sentence)
+        print_result(machine_search(sentence))
         sentence = input(sentence)
     return
+
+
+main()
