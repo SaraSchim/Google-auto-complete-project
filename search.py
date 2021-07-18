@@ -46,13 +46,12 @@ def get_index_sentence(node):
 
 end = 0
 
-
-def go_down_db(current_node, len_sentence):
+def go_down_db(current_node):
     global list, end
     if end == 0:
         for i in current_node.keys():
             if current_node.get(" ") is None:
-                go_down_db(current_node[i], len_sentence)
+                go_down_db(current_node[i])
             else:
                 list += get_index_sentence(current_node[" "])
                 # for idx in index_list:
@@ -64,40 +63,77 @@ def go_down_db(current_node, len_sentence):
 
 
 #thisis
+# def find_node_by_sentence(node, sentence):
+#     # print(sentence)
+#     global list, end
+#     for i in range(len(sentence)):
+#         if sentence[i] == "*":
+#             for key in node.keys():
+#                 if key != " ":
+#                     result = find_node_by_sentence(node[key], sentence[i + 1:])
+#                     if result:
+#                         return result
+#             return False
+#         else:
+#             if not node.get(sentence[i]):
+#                 go_down_db(node)
+#                 if end == 1:
+#                     end = 0
+#                     returned_list = list[:]
+#                     list = []
+#                     return returned_list
+#                 return False
+#             node = node.get(sentence[i])
+#     if not node.get(" "):
+#         go_down_db(node)
+#         if end == 1:
+#             end = 0
+#             returned_list = list[:]
+#             list = []
+#             return returned_list
+#         return False
+#     return node.get(" ")
+
+#th*sis
 def find_node_by_sentence(node, sentence):
-    # print(sentence)
-    global list, end
+    global end,list
+    end=0
+    list=[]
     for i in range(len(sentence)):
         if sentence[i] == "*":
             for key in node.keys():
-                if key != " ":
-                    result = find_node_by_sentence(node[key], sentence[i + 1:])
-                    if result:
-                        return result
+                if key!=' ':
+                    result_list = find_node_by_sentence(node[key], sentence[i + 1:])
+                    if result_list:
+                        return result_list
             return False
         else:
             if not node.get(sentence[i]):
-                go_down_db(node, i - 1)
-                if end == 1:
-                    end = 0
-                    returned_list = list[:]
-                    list = []
-                    return returned_list
+                if i == len(sentence)-1:
+                    go_down_db(node)
+                    if end == 1:
+                        return list
                 return False
             node = node.get(sentence[i])
     if not node.get(" "):
-        go_down_db(node, len(sentence))
+        go_down_db(node)
         if end == 1:
-            end = 0
-            returned_list = list[:]
-            list = []
-            return returned_list
+            return list
         return False
-    return node.get(" ")
+    result_list = []
+    index_list = get_index_sentence(node.get(" "))
+    # for idx in index_list:
+    #     obj = AutoCompleteData(idx, -1, 0, len(sentence))
+    #     result_list.append(obj)
+    if len(index_list) < 5:
+        for i in node.keys():
+            if i != " ":
+                go_down_db(node[i])
+                if end == 1:
+                    return index_list + list
+    return index_list
 
-
-# print(find_node_by_sentence(data_base, "sis"))
-
+# print(find_node_by_sentence(data_base, "th*sis"))
 
 
 def machine_search(sentence):
@@ -114,13 +150,12 @@ def machine_search(sentence):
         print([i.get_score() for i in array])
     else:
         len_array = 0
-    if array and len(array) == 5:
+    if array and len(array) >= 5:
         array = [i.get_sentence() for i in array]
         return parse_and_sort(array)
     else:
         change_list = fix_char(sentence, 5 - len_array, 1)
         add_list = fix_char(sentence, 5 - len_array, 2)
-        # print(add_list)
         remove_list = fix_char(sentence, 5 - len_array, 3)
         all_fix_list = change_list + add_list + remove_list
         all_fix_list.sort()
@@ -140,6 +175,8 @@ def parse_and_sort(sentences_list):
     result_list = [lines[i] for i in sentences_list]
     result_list.sort()
     return result_list
+
+# print(parse_and_sort([360, 576, 810, 33, 33, 139, 517, 139, 517, 139, 517]))
 
 
 # print(parse_and_sort([7, 15, 37, 52, 53]))
@@ -164,7 +201,9 @@ def fix_char(sentence, num, type):
         if res:
             index_list = get_index_sentence(res)
             for i in index_list:
+                print(char)
                 obj = AutoCompleteData(i, char, type, len(sentence))
+                print(obj.get_score())
                 result.append(obj)
                 if len(result) >= num:
                     return result[:num]
@@ -172,6 +211,10 @@ def fix_char(sentence, num, type):
         return result
     return []
 
+# a=(fix_char("thsis", 5, 3))
+# a=[i.get_sentence() for i in a]
+#
+# print(parse_and_sort(a))
 
 def print_result(array):
     for i in range(len(array)):

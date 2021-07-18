@@ -7,10 +7,10 @@ class AutoCompleteData:
         if type != 0:
             if type == 3:
                 type = 2
-            if index >= 4:
+            if index > 4:
                 self.__score -= type
             else:
-                self.__score -= (5-index)*type
+                self.__score -= (5-index+1)*type
 
     def get_sentence(self):
         return self.__sentence_index
