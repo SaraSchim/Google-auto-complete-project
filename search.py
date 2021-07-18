@@ -25,12 +25,14 @@ list = []
 #########################
 
 def find_node_by_sentence(node, sentence):
+    # print(sentence)
     for i in range(len(sentence)):
         if sentence[i] == "*":
             for key in node.keys():
-                result = find_node_by_sentence(node[key], sentence[i + 1:])
-                if result:
-                    return result
+                if key != " ":
+                    result = find_node_by_sentence(node[key], sentence[i + 1:])
+                    if result:
+                        return result
             return False
         else:
             node = node.get(sentence[i])
@@ -67,13 +69,16 @@ def machine_search(sentence):
     array = get_index_sentence(last_node)
     if array:
         len_array = len(array)
+        array = [AutoCompleteData(i, 0, 0, len(lines[i])) for i in array]
     else:
         len_array = 0
     if array and len(array) == 5:
+        array = [i.get_sentence() for i in array]
         return parse_and_sort(array)
     else:
         change_list = fix_char(sentence, 5 - len_array, 1)
         add_list = fix_char(sentence, 5 - len_array, 2)
+        print(add_list)
         remove_list = fix_char(sentence, 5 - len_array, 3)
         all_fix_list = change_list + add_list + remove_list
         all_fix_list.sort()
@@ -108,21 +113,21 @@ def get_index_sentence(node):
 # TODO: fix this
 def parse_and_sort(sentences_list):
     result_list = [lines[i] for i in sentences_list]
-    # result_list.sort()
+    result_list.sort()
     return result_list
 
 
-print(parse_and_sort([7, 15, 37, 52, 53]))
+# print(parse_and_sort([7, 15, 37, 52, 53]))
 
 # print(lines)
-print((get_index_sentence(find_node_by_sentence(data_base, "this"))))
+# print((get_index_sentence(find_node_by_sentence(data_base, "this"))))
 
 
 # type change = 1, type add = 2, type remove = 3
 def fix_char(sentence, num, type):
     result = []
     temp = 0
-    if type == 1:
+    if type == 1 or type == 2:
         temp = 1
     if type == 2:
         c = ""
@@ -144,17 +149,12 @@ def fix_char(sentence, num, type):
 
 
 def print_result(array):
-    for i in range(5):
-        print("{}. {}".format(i, array[i]))
+    for i in range(len(array)):
+        print("{}. {}".format(i+1, array[i]))
 
 
-# print(fix_char("ths", 3, 3))
+print(fix_char("thiis", 2, 2))
 
-
-# lines=get_lines()
-# data_base=get_data()
-# sentence = input("please enter sentence:")
-# search(sentence)
 
 def main():
     sentence = input("Enter your text:")
