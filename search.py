@@ -107,10 +107,11 @@ def machine_search(sentence):
     sentence = "".join(sentence.split(" "))
     last_node = find_node_by_sentence(data_base, sentence)
     array = get_index_sentence(last_node)
-    print(array)
+    # print(array)
     if array:
         len_array = len(array)
-        array = [AutoCompleteData(i, 0, 0, len(lines[i])) for i in array]
+        array = [AutoCompleteData(i, 0, 0, len(sentence)) for i in array]
+        print([i.get_score() for i in array])
     else:
         len_array = 0
     if array and len(array) == 5:
@@ -119,7 +120,7 @@ def machine_search(sentence):
     else:
         change_list = fix_char(sentence, 5 - len_array, 1)
         add_list = fix_char(sentence, 5 - len_array, 2)
-        print(add_list)
+        # print(add_list)
         remove_list = fix_char(sentence, 5 - len_array, 3)
         all_fix_list = change_list + add_list + remove_list
         all_fix_list.sort()
@@ -127,6 +128,7 @@ def machine_search(sentence):
             array += all_fix_list[:5 - len_array]
         else:
             array = all_fix_list[:5 - len_array]
+        print([i.get_score() for i in array])
         array = [i.get_sentence() for i in array]
         array = parse_and_sort(array)
         return array
