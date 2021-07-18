@@ -6,11 +6,11 @@ data_base = dict()
 lines = []
 
 
-# file_name = 1
+file_name = 1
 
 
 def insert(line, line_index):
-    file_name = 0
+    global file_name
     line = line.lower()
     line = line.split()
     for idx_first_word in range(len(line)):
@@ -26,11 +26,12 @@ def insert(line, line_index):
                 if len(current_node[" "]) < 10:
                     current_node[" "].append(line_index)
                 elif len(current_node[" "]) == 10:
-                    file_name += 1
+                    # print(line, file_name)
                     with open("DB_files\{}.txt".format(file_name), "a") as sen_file:
                         for i in current_node[" "]:
                             sen_file.write("{}\n".format(i))
                     current_node[" "] = "{}.txt".format(file_name)
+                    file_name += 1
             else:
                 with open("DB_files\{}".format(current_node[" "]), "a") as sen_file:
                     sen_file.write("{}\n".format(line_index))
