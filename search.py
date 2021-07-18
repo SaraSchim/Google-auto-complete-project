@@ -38,7 +38,7 @@ def find_node_by_sentence(node, sentence):
                 return False
     return node.get(" ")
 
-
+# print(find_node_by_sentence(data_base, "described"))
 end = 0
 
 
@@ -78,9 +78,9 @@ def machine_search(sentence):
         all_fix_list = change_list + add_list + remove_list
         all_fix_list.sort()
         if array:
-            array += all_fix_list[:len_array]
+            array += all_fix_list[:5-len_array]
         else:
-            array = all_fix_list[:len_array]
+            array = all_fix_list[:5-len_array]
         array = [i.get_sentence() for i in array]
         array = parse_and_sort(array)
         return array
@@ -112,8 +112,10 @@ def parse_and_sort(sentences_list):
     return result_list
 
 
+print(parse_and_sort([7, 15, 37, 52, 53]))
+
 # print(lines)
-print(parse_and_sort(get_index_sentence(find_node_by_sentence(data_base, "this"))))
+print((get_index_sentence(find_node_by_sentence(data_base, "this"))))
 
 
 # type change = 1, type add = 2, type remove = 3

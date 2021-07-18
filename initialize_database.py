@@ -10,7 +10,7 @@ lines = []
 
 
 def insert(line, line_index):
-    file_name = 1
+    file_name = 0
     line = line.lower()
     line = line.split()
     for idx_first_word in range(len(line)):
@@ -22,14 +22,15 @@ def insert(line, line_index):
                 current_node = current_node[letter]
             if current_node.get(" ") is None:
                 current_node[" "] = []
-            if len(current_node[" "]) < 10 and type(current_node[" "]) == type([]):
-                current_node[" "].append(line_index)
-            elif len(current_node[" "]) == 10 :
-                with open("DB_files\{}.txt".format(file_name), "a") as sen_file:
-                    for i in current_node[" "]:
-                        sen_file.write("{}\n".format(i))
-                current_node[" "] = "{}.txt".format(file_name)
-                file_name += 1
+            if type(current_node[" "]) == type([]):
+                if len(current_node[" "]) < 10:
+                    current_node[" "].append(line_index)
+                elif len(current_node[" "]) == 10:
+                    file_name += 1
+                    with open("DB_files\{}.txt".format(file_name), "a") as sen_file:
+                        for i in current_node[" "]:
+                            sen_file.write("{}\n".format(i))
+                    current_node[" "] = "{}.txt".format(file_name)
             else:
                 with open("DB_files\{}".format(current_node[" "]), "a") as sen_file:
                     sen_file.write("{}\n".format(line_index))
@@ -44,13 +45,13 @@ def find_all_lines(root_path):
                 print(count)
                 # print(os.path.join(r, file))
                 count += 1
-                with open(os.path.join(r, file), "r", encoding="cp437", errors='ignore') as txt_file:
+                with open(os.path.join(r, file), "r", encoding="utf8") as txt_file:
                     lines_list = txt_file.read().splitlines()
                     for i in range(len(lines_list)):
                         regex = re.compile('[^a-zA-Z\s]')
                         clear_line = regex.sub('', lines_list[i])
-                        lines_list[i] += ' ({} {})'.format(file[:-4], i)
                         if len(lines_list[i]) >= 2:
+                            lines_list[i] += ' ({} {})'.format(file[:-4], i)
                             lines.append(lines_list[i])
                             insert(clear_line, len(lines) - 1)
 
@@ -75,5 +76,5 @@ write_DB_to_file()
 # insert("this ",5)
 # insert("ahis ",7)
 # insert("thisis mellon",6)
-
+#
 # print(data_base)
