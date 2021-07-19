@@ -234,12 +234,3 @@ def main():
 
 main()
 
-
-# TODO:
-'''
-snetences that do not work well:
-thiis is
-have a
-problems:
-double lines returned
-'''
