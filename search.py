@@ -3,28 +3,32 @@ import re
 from AutoCompleteData import AutoCompleteData
 
 
+# read the data (trie) from the file
 def get_data():
     with open('database.json', "r") as DB_file:
         data_base = json.load(DB_file)
     return data_base
 
 
+# read the list of all lines from the file
 def get_lines():
     with open('database_lines.json', "r") as DB_file:
         lines = json.load(DB_file)
     return lines
 
 
+# global variables
 lines = get_lines()
 data_base = get_data()
-score = 0
-
 list = []
+end = 0
 
 
 #########################
 
 
+# given a node, returns the 5 first indexes (if they exist) of the lines that contains the string of that node as a
+# substring
 def get_index_sentence(node):
     if type(node) == type([]):
         if len(node) >= 5:
@@ -44,8 +48,9 @@ def get_index_sentence(node):
         return False
 
 
-end = 0
-
+# when ending a sentence in a node that doesn't have a " " child - the function goes down the DB till it finds a
+# list of 5 lines that contain the sentence as a prefix
+# if found - updates the global variable "end" to be 1
 def go_down_db(current_node):
     global list, end
     if end == 0:
@@ -54,62 +59,28 @@ def go_down_db(current_node):
                 go_down_db(current_node[i])
             else:
                 list += get_index_sentence(current_node[" "])
-                # for idx in index_list:
-                #     # print(idx)
-                #     obj = AutoCompleteData(idx, -1, 0, len_sentence)
-                #     list.append(obj)
                 if len(list) >= 5:
                     end = 1
 
 
-#thisis
-# def find_node_by_sentence(node, sentence):
-#     # print(sentence)
-#     global list, end
-#     for i in range(len(sentence)):
-#         if sentence[i] == "*":
-#             for key in node.keys():
-#                 if key != " ":
-#                     result = find_node_by_sentence(node[key], sentence[i + 1:])
-#                     if result:
-#                         return result
-#             return False
-#         else:
-#             if not node.get(sentence[i]):
-#                 go_down_db(node)
-#                 if end == 1:
-#                     end = 0
-#                     returned_list = list[:]
-#                     list = []
-#                     return returned_list
-#                 return False
-#             node = node.get(sentence[i])
-#     if not node.get(" "):
-#         go_down_db(node)
-#         if end == 1:
-#             end = 0
-#             returned_list = list[:]
-#             list = []
-#             return returned_list
-#         return False
-#     return node.get(" ")
-
-#th*sis
+# given a starting node and a sentence - the func goes down the DB from the node according to the sentence's letters
+# till the end of the sentence
+# returns the node where stopped
 def find_node_by_sentence(node, sentence):
-    global end,list
-    end=0
-    list=[]
+    global end, list
+    end = 0
+    list = []
     for i in range(len(sentence)):
         if sentence[i] == "*":
             for key in node.keys():
-                if key!=' ':
+                if key != ' ':
                     result_list = find_node_by_sentence(node[key], sentence[i + 1:])
                     if result_list:
                         return result_list
             return False
         else:
             if not node.get(sentence[i]):
-                if i == len(sentence)-1:
+                if i == len(sentence) - 1:
                     go_down_db(node)
                     if end == 1:
                         return list
@@ -122,9 +93,6 @@ def find_node_by_sentence(node, sentence):
         return False
     result_list = []
     index_list = get_index_sentence(node.get(" "))
-    # for idx in index_list:
-    #     obj = AutoCompleteData(idx, -1, 0, len(sentence))
-    #     result_list.append(obj)
     if len(index_list) < 5:
         for i in node.keys():
             if i != " ":
@@ -133,9 +101,10 @@ def find_node_by_sentence(node, sentence):
                     return index_list + list
     return index_list
 
-# print(find_node_by_sentence(data_base, "th*sis"))
 
-
+# given a sentence, searches for 5 lines that contain the sentence
+# if not found (or found less than 5) - fixes the sentence in various ways and searches by the fixed sentence
+# returns the 5 lines that have the highest score
 def machine_search(sentence):
     regex = re.compile('[^a-zA-Z\s]')
     sentence = regex.sub('', sentence)
@@ -143,7 +112,6 @@ def machine_search(sentence):
     sentence = "".join(sentence.split(" "))
     last_node = find_node_by_sentence(data_base, sentence)
     array = get_index_sentence(last_node)
-    # print(array)
     if array:
         len_array = len(array)
         array = [AutoCompleteData(i, 0, 0, len(sentence)) for i in array]
@@ -169,22 +137,15 @@ def machine_search(sentence):
         return array
 
 
-
-
+# given a list of indexes - finds the lines in those indexes and sorts the list in alphabetic order
 def parse_and_sort(sentences_list):
     result_list = [lines[i] for i in sentences_list]
     result_list.sort()
     return result_list
 
-# print(parse_and_sort([360, 576, 810, 33, 33, 139, 517, 139, 517, 139, 517]))
 
-
-# print(parse_and_sort([7, 15, 37, 52, 53]))
-
-# print(lines)
-# print((get_index_sentence(find_node_by_sentence(data_base, "this"))))
-
-
+# given a sentence with 1 mistake, a number of lines that is needed and a type of mistake
+# fixes the sentence according to the type of mistake and searches for lines that contain the fixed sentences
 # type change = 1, type add = 2, type remove = 3
 def fix_char(sentence, num, type):
     result = []
@@ -211,17 +172,11 @@ def fix_char(sentence, num, type):
         return result
     return []
 
-# a=(fix_char("thsis", 5, 3))
-# a=[i.get_sentence() for i in a]
-#
-# print(parse_and_sort(a))
 
+# given an array of the result lines - prints them nicely...
 def print_result(array):
     for i in range(len(array)):
         print("{}. {}".format(i + 1, array[i]))
-
-
-# print(fix_char("thiis", 2, 2))
 
 
 def main():
@@ -233,4 +188,3 @@ def main():
 
 
 main()
-
