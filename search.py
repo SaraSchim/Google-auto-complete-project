@@ -177,14 +177,3 @@ def fix_char(sentence, num, type):
 def print_result(array):
     for i in range(len(array)):
         print("{}. {}".format(i + 1, array[i]))
-
-
-def main():
-    sentence = input("Enter your text:")
-    while sentence != "#":
-        print_result(machine_search(sentence))
-        sentence = input(sentence)
-    return
-
-
-main()
