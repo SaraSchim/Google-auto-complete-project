@@ -5,7 +5,6 @@ import re
 data_base = dict()
 lines = []
 
-
 file_name = 1
 
 
@@ -26,7 +25,6 @@ def insert(line, line_index):
                 if len(current_node[" "]) < 10:
                     current_node[" "].append(line_index)
                 elif len(current_node[" "]) == 10:
-                    # print(line, file_name)
                     with open("DB_files\{}.txt".format(file_name), "a") as sen_file:
                         for i in current_node[" "]:
                             sen_file.write("{}\n".format(i))
@@ -38,14 +36,10 @@ def insert(line, line_index):
 
 
 def find_all_lines(root_path):
-    count = 0
     # r=root, d=directories, f = files
     for r, d, f in os.walk(root_path):
         for file in f:
             if '.txt' in file:
-                print(count)
-                # print(os.path.join(r, file))
-                count += 1
                 with open(os.path.join(r, file), "r", encoding="utf8") as txt_file:
                     lines_list = txt_file.read().splitlines()
                     for i in range(len(lines_list)):
@@ -59,8 +53,7 @@ def find_all_lines(root_path):
 
 def write_DB_to_file():
     print("Loading the files and preparing the system...")
-    path = '1'
-    # path = '2021-archive\python-3.8.4-docs-text'
+    path = '2021-archive\python-3.8.4-docs-text'
     find_all_lines(path)
     with open('database.json', "w") as DB_file:
         json.dump(data_base, DB_file)

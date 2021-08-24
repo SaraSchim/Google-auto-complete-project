@@ -115,7 +115,6 @@ def machine_search(sentence):
     if array:
         len_array = len(array)
         array = [AutoCompleteData(i, 0, 0, len(sentence)) for i in array]
-        print([i.get_score() for i in array])
     else:
         len_array = 0
     if array and len(array) >= 5:
@@ -131,7 +130,6 @@ def machine_search(sentence):
             array += all_fix_list[:5 - len_array]
         else:
             array = all_fix_list[:5 - len_array]
-        print([i.get_score() for i in array])
         array = [i.get_sentence() for i in array]
         array = parse_and_sort(array)
         return array
@@ -156,15 +154,13 @@ def fix_char(sentence, num, type):
         c = ""
     else:
         c = "*"
-    for char in range(len(sentence), 0, -1):
-        fixed_sentence = sentence[:char - temp] + c + sentence[char:]
+    for j in range(len(sentence), 0, -1):
+        fixed_sentence = sentence[:j - temp] + c + sentence[j:]
         res = find_node_by_sentence(data_base, fixed_sentence)
         if res:
             index_list = get_index_sentence(res)
             for i in index_list:
-                print(char)
-                obj = AutoCompleteData(i, char, type, len(sentence))
-                print(obj.get_score())
+                obj = AutoCompleteData(i, j, type, len(sentence))
                 result.append(obj)
                 if len(result) >= num:
                     return result[:num]
