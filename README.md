@@ -1,6 +1,6 @@
 # Google-auto-complete-project
 
-Automatic sentence completion
+Google Project (~30h challenge) : Search and auto-completion for sentences within given input text files.Manipulating the data with complex data-structures and algorithmic optimizations using Python
 
 introduction:
 In order to improve the user experience of the Google search engine, the development team decided to allow the completion of sentences from articles, documentation and information files on various technological topics.
