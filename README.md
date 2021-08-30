@@ -2,17 +2,17 @@
 
 Google Project (~30h challenge) : Search and auto-completion for sentences within given input text files.Manipulating the data with complex data-structures and algorithmic optimizations using Python
 
-*introduction:
+introduction:
 
 In order to improve the user experience of the Google search engine, the development team decided to allow the completion of sentences from articles, documentation and information files on various technological topics.
 
-*The program supports two main functions:
+The program supports two main functions:
 
 ● Initial function - the function receives a list of text sources on which the search engine will run, each source contains a collection of sentences. The function saves the results in the best way for the benefit of the completion function - in a trie that contains all the sentences and sub sentences and at the end of each word there is a list of all the sentences that contain the sentence obtained from a route in the trie from the root to the end of the word. This list is written into a file to save memory from the ram.
 
 ● Completion function - the function receives a string - which is the text that the user typed - the function returns the five best completions (good completion will be defined later).
 
-*The completion:
+The completion:
 
 The purpose of the completion action is to make it easier for the user to find the most appropriate sentence.
 
@@ -22,7 +22,7 @@ We will set a match between a sentence and text that the user typed if:
 
 ● Text in which if we make one correction then the text will form a sub-string of the sentence.
 
-*Correction is defined as:
+Correction is defined as:
 
 ● Character replacement
 
@@ -36,7 +36,7 @@ We will set a match between a sentence and text that the user typed if:
 
 ○ Example: The string "to bee or not" is considered a sub-string of the text "to be or not to be is the question", with the addition of the character "e" in the word "be".
 
-*match score:
+match score:
 
 In the case of multiple matches to the typed text, we will set a score for each match:
 
@@ -46,7 +46,7 @@ In the case of multiple matches to the typed text, we will set a score for each 
 
 ● Deleting a character or adding a character receives a reduction of 2 points except for the first 4 characters) first character 10 points, second character 8, third character 6, fourth character 4
 
-*Input and output notes:
+Input and output notes:
 
 ● The text files are stored in a folder tree structure and are in the Archive folder
 
